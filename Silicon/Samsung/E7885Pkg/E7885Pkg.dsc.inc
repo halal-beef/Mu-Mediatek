@@ -18,29 +18,29 @@
   *_*_AARCH64_CC_FLAGS = -march=armv8.2-a+crypto+rcpc
 
 [PcdsFixedAtBuild.common]
-  gArmTokenSpaceGuid.PcdArmArchTimerFreqInHz|26000000
+  gArmTokenSpaceGuid.PcdArmArchTimerFreqInHz|13000000
   gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum|13
   gArmTokenSpaceGuid.PcdArmArchTimerIntrNum|14
   gArmTokenSpaceGuid.PcdArmArchTimerVirtIntrNum|11
   gArmTokenSpaceGuid.PcdArmArchTimerHypIntrNum|10
-  gArmTokenSpaceGuid.PcdGicDistributorBase|0x12301000
-  gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x12304000
-  gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x12300000
+  gArmTokenSpaceGuid.PcdGicDistributorBase|0x0c000000
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x0c100000
+  gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x0c400000
 
-  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemRevision|0x00007885
-  gEmbeddedTokenSpaceGuid.PcdInterruptBaseAddress|0x12300000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemRevision|0x00006765
+  gEmbeddedTokenSpaceGuid.PcdInterruptBaseAddress|0x0c400000
 
-  gSamsungPkgTokenSpaceGuid.PcdSmbiosProcessorModel|"Exynos (TM) 7885 @ 2.20 GHz"
-  gSamsungPkgTokenSpaceGuid.PcdSmbiosProcessorRetailModel|"E7885"
+  gSamsungPkgTokenSpaceGuid.PcdSmbiosProcessorModel|"Mediatek (TM) MT6765 @ 2.30 GHz"
+  gSamsungPkgTokenSpaceGuid.PcdSmbiosProcessorRetailModel|"MT6765"
 
-  gArmPlatformTokenSpaceGuid.PcdCoreCount|8
-  gArmPlatformTokenSpaceGuid.PcdClusterCount|2
+  gArmPlatformTokenSpaceGuid.PcdCoreCount|4
+  gArmPlatformTokenSpaceGuid.PcdClusterCount|1
 
 [LibraryClasses.common]
   PlatformPeiLib|E7885Pkg/Library/PlatformPeiLib/PlatformPeiLib.inf
   PlatformPrePiLib|E7885Pkg/Library/PlatformPrePiLib/PlatformPrePiLib.inf
-  HwResetSystemLib|E7885Pkg/Library/ResetSystemLib/ResetSystemLib.inf
-  ResetSystemLib|E7885Pkg/Library/ResetSystemLib/ResetSystemLib.inf
+  HwResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
+  ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
 
 [Components.common]
   E7885Pkg/Drivers/SmBiosTableDxe/SmBiosTableDxe.inf

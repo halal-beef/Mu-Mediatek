@@ -7,6 +7,6 @@
 
 VOID PlatformInitialize(VOID)
 {
-  // Enable Framebuffer
-  MmioWrite32(DECON_F_BASE + HW_SW_TRIG_CONTROL, 0x1281);
+  // Disable WDT
+  MmioWrite32(0x10007000, 0x22000000);
 }
