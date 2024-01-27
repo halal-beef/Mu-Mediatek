@@ -21,7 +21,7 @@ static ARM_MEMORY_REGION_DESCRIPTOR_EX gDeviceMemoryDescriptorEx[] = {
     {"SSPM Reserved",     0x7FF00000, 0x000C0000, AddMem, MEM_RES, SYS_MEM_CAP, Reserv, WRITE_BACK},
     {"SCP Reserved",      0x9F900000, 0x00600000, AddMem, MEM_RES, SYS_MEM_CAP, Reserv, WRITE_BACK},
 
-    {"Display Reserved",  0x7D860000, 0x00F10000, AddMem, MEM_RES, SYS_MEM_CAP, Reserv, WRITE_THROUGH},
+    {"Display Reserved",  0x7DFE0000, 0x01F20000, AddMem, MEM_RES, SYS_MEM_CAP, Reserv, WRITE_THROUGH},
 
 
 //------------------- Terminator for MMU ---------------------
