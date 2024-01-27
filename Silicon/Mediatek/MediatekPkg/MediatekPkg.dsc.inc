@@ -221,7 +221,7 @@
 !endif
 
   PlatformThemeLib|MediatekPkg/Library/PlatformThemeLib/PlatformThemeLib.inf
-  #KeypadDeviceImplLib|MediatekPkg/Library/KeypadDeviceImplLib/KeypadDeviceImplLib.inf
+  KeypadDeviceImplLib|MediatekPkg/Library/KeypadDeviceImplLib/KeypadDeviceImplLib.inf
 
   #
   # Uncomment (and comment out the next line) For RealView Debugger. The Standard IO window
@@ -607,7 +607,10 @@
       OemTpm2InitLib|SecurityPkg/Library/OemTpm2InitLibNull/OemTpm2InitLib.inf
       NULL|SecurityPkg/Library/OemTpm2InitLibNull/OemTpm2InitLibVendorNull.inf
   }
-
+  # Keypad
+  MediatekPkg/Drivers/KeypadDxe/KeypadDxe.inf
+  MediatekPkg/Drivers/GenericKeypadDeviceDxe/GenericKeypadDeviceDxe.inf
+  MediatekPkg/Drivers/GpioButtons/GpioButtons.inf
   #MediatekPkg/Drivers/SecureBootProvisioningDxe/SecureBootProvisioningDxe.inf
   MediatekPkg/Drivers/SystemIntegrityPolicyProvisioningDxe/SystemIntegrityPolicyProvisioningDxe.inf
 

@@ -21,14 +21,4 @@
   IoLib
   PcdLib
   DebugLib
-
-[FixedPcd]
-  gMediatekPkgTokenSpaceGuid.PcdButtonsPinctrlBase
-  gMediatekPkgTokenSpaceGuid.PcdVolumeDownButtonBankOffset
-  gMediatekPkgTokenSpaceGuid.PcdVolumeDownButtonGpaPin
-  gMediatekPkgTokenSpaceGuid.PcdVolumeUpButtonBankOffset
-  gMediatekPkgTokenSpaceGuid.PcdVolumeUpButtonGpaPin
-  gMediatekPkgTokenSpaceGuid.PcdPowerButtonBankOffset
-  gMediatekPkgTokenSpaceGuid.PcdPowerButtonGpaPin
-  gMediatekPkgTokenSpaceGuid.PcdSpecialButtonBankOffset
-  gMediatekPkgTokenSpaceGuid.PcdSpecialButtonGpaPin
+  GpioLib
