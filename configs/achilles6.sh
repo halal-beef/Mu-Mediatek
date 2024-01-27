@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat ./BootShim/AARCH64/BootShim.bin "./Build/achilles6Pkg-AARCH64/${_TARGET_BUILD_MODE}_CLANG38/FV/achilles6_UEFI.fd" > "./ImageResources/bootpayload.bin"||exit 1
+cat ./BootShim/AARCH64/BootShim.bin "./Build/achilles6Pkg-AARCH64/${_TARGET_BUILD_MODE}_CLANG38/FV/ACHILLES6_UEFI.fd" > "./ImageResources/bootpayload.bin"||exit 1
 
 gzip -f ./ImageResources/bootpayload.bin||_error "\nFailed to compress payload!\n"
 
@@ -17,5 +17,5 @@ python3 ./ImageResources/mkbootimg.py \
   --ramdisk "./ImageResources/ramdisk" \
   --dtb "./ImageResources/DTBs/achilles6.dtb" \
   --kernel "./ImageResources/bootpayload.bin.gz" \
-  -o "Mu-WSP.img" \
+  -o "Mu-achilles6.img" \
   ||_error "\nFailed to create Android Boot Image!\n"
