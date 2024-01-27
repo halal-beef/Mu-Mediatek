@@ -613,7 +613,7 @@
   #SamsungPkg/Drivers/GenericKeypadDeviceDxe/GenericKeypadDeviceDxe.inf
 
   SamsungPkg/Drivers/GpioButtons/GpioButtons.inf
-  SamsungPkg/Drivers/SecureBootProvisioningDxe/SecureBootProvisioningDxe.inf
+  #SamsungPkg/Drivers/SecureBootProvisioningDxe/SecureBootProvisioningDxe.inf
   SamsungPkg/Drivers/SystemIntegrityPolicyProvisioningDxe/SystemIntegrityPolicyProvisioningDxe.inf
 
   # ACPI

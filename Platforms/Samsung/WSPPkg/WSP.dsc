@@ -59,15 +59,6 @@
   gSamsungPkgTokenSpaceGuid.PcdSmbiosSystemRetailSku|"Nokia_2.2_TA-1188"
   gSamsungPkgTokenSpaceGuid.PcdSmbiosBoardModel|"Nokia 2.2"
 
-  # Buttons
-  gSamsungPkgTokenSpaceGuid.PcdButtonsPinctrlBase|0x0
-  gSamsungPkgTokenSpaceGuid.PcdVolumeDownButtonBankOffset|0x0
-  gSamsungPkgTokenSpaceGuid.PcdVolumeDownButtonGpaPin|0x0
-  gSamsungPkgTokenSpaceGuid.PcdVolumeUpButtonBankOffset|0x0
-  gSamsungPkgTokenSpaceGuid.PcdVolumeUpButtonGpaPin|0x0
-  gSamsungPkgTokenSpaceGuid.PcdPowerButtonBankOffset|0x0
-  gSamsungPkgTokenSpaceGuid.PcdPowerButtonGpaPin|0x0
-
   # Simple FrameBuffer
   gSamsungPkgTokenSpaceGuid.PcdMipiFrameBufferWidth|736
   gSamsungPkgTokenSpaceGuid.PcdMipiFrameBufferHeight|1520
