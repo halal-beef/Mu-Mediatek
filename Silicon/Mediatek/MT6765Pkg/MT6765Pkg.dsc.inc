@@ -37,6 +37,7 @@
   gArmPlatformTokenSpaceGuid.PcdClusterCount|1
 
 [LibraryClasses.common]
+  GpioLib|Silicon/Mediatek/MT6765Pkg/Library/GpioLib/GpioLib.inf
   PlatformPeiLib|MT6765Pkg/Library/PlatformPeiLib/PlatformPeiLib.inf
   PlatformPrePiLib|MT6765Pkg/Library/PlatformPrePiLib/PlatformPrePiLib.inf
   HwResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf

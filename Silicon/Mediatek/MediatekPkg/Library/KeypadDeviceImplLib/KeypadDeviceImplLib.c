@@ -5,16 +5,23 @@
 #include <Library/KeypadDeviceImplLib.h>
 #include <Library/UefiLib.h>
 #include <Library/PcdLib.h>
+#include <Library/GpioLib.h>
 #include <Library/IoLib.h>
 #include <Library/DebugLib.h>
 
 #include <Protocol/KeypadDevice.h>
 
+typedef enum {
+  KEY_DEVICE_TYPE_UNKNOWN,
+  KEY_DEVICE_TYPE_LEGACY
+} KEY_DEVICE_TYPE;
+
 typedef struct {
-  KEY_CONTEXT EfiKeyContext;
-  UINT32      PinctrlBase;
-  UINT32      BankOffset;
-  UINT32      PinNum;
+  KEY_CONTEXT     EfiKeyContext;
+  BOOLEAN         IsValid;
+  KEY_DEVICE_TYPE DeviceType;
+  UINT32   Gpio;
+  BOOLEAN ActiveLow;
 } KEY_CONTEXT_PRIVATE;
 
 UINTN gBitmapScanCodes[BITMAP_NUM_WORDS(0x18)]    = {0};
@@ -170,20 +177,16 @@ STATIC KEY_CONTEXT_PRIVATE KeyContextPower;
 STATIC KEY_CONTEXT_PRIVATE KeyContextVolumeUp;
 STATIC KEY_CONTEXT_PRIVATE KeyContextVolumeDown;
 
-#if HAS_SPECIAL_BUTTON == 1
-STATIC KEY_CONTEXT_PRIVATE KeyContextSpecial;
-STATIC KEY_CONTEXT_PRIVATE *KeyList[] = { &KeyContextVolumeDown, &KeyContextVolumeUp, &KeyContextPower, &KeyContextSpecial };
-#else
 STATIC KEY_CONTEXT_PRIVATE *KeyList[] = { &KeyContextVolumeDown, &KeyContextVolumeUp, &KeyContextPower};
-#endif
 
 STATIC
 VOID
 KeypadInitializeKeyContextPrivate(KEY_CONTEXT_PRIVATE *Context)
 {
-  Context->PinctrlBase = 0;
-  Context->BankOffset  = 0;
-  Context->PinNum      = 0;
+  Context->IsValid     = FALSE;
+  Context->Gpio        = 0;
+  Context->DeviceType  = KEY_DEVICE_TYPE_UNKNOWN;
+  Context->ActiveLow   = FALSE;
 }
 
 STATIC
@@ -196,11 +199,6 @@ KEY_CONTEXT_PRIVATE *KeypadKeyCodeToKeyContext(UINT32 KeyCode)
   } else if (KeyCode == 116) {
     return &KeyContextPower;
   }
-#if HAS_SPECIAL_BUTTON == 1
-  else if (KeyCode == 117) {
-    return &KeyContextSpecial;
-  }
-#endif
 
   return NULL;
 }
@@ -220,29 +218,10 @@ KeypadDeviceImplConstructor(VOID)
   // Configure keys
   /// Volume Down Button
   StaticContext              = KeypadKeyCodeToKeyContext(114);
-  StaticContext->PinctrlBase = FixedPcdGet32(PcdButtonsPinctrlBase);
-  StaticContext->BankOffset  = FixedPcdGet32(PcdVolumeDownButtonBankOffset);
-  StaticContext->PinNum      = FixedPcdGet32(PcdVolumeDownButtonGpaPin);
-
-  /// Volume Up Button
-  StaticContext              = KeypadKeyCodeToKeyContext(115);
-  StaticContext->PinctrlBase = FixedPcdGet32(PcdButtonsPinctrlBase);
-  StaticContext->BankOffset  = FixedPcdGet32(PcdVolumeUpButtonBankOffset);
-  StaticContext->PinNum      = FixedPcdGet32(PcdVolumeUpButtonGpaPin);
-
-  /// Power Button
-  StaticContext              = KeypadKeyCodeToKeyContext(116);
-  StaticContext->PinctrlBase = FixedPcdGet32(PcdButtonsPinctrlBase);
-  StaticContext->BankOffset  = FixedPcdGet32(PcdPowerButtonBankOffset);
-  StaticContext->PinNum      = FixedPcdGet32(PcdPowerButtonGpaPin);
-
-#if HAS_SPECIAL_BUTTON == 1
-  /// Special Button
-  StaticContext              = KeypadKeyCodeToKeyContext(117);
-  StaticContext->PinctrlBase = FixedPcdGet32(PcdButtonsPinctrlBase);
-  StaticContext->BankOffset  = FixedPcdGet32(PcdSpecialButtonBankOffset);
-  StaticContext->PinNum      = FixedPcdGet32(PcdSpecialButtonGpaPin);
-#endif
+  StaticContext->DeviceType  = KEY_DEVICE_TYPE_LEGACY;
+  StaticContext->Gpio        = 93;
+  StaticContext->ActiveLow   = TRUE;
+  StaticContext->IsValid     = TRUE;
 
   return RETURN_SUCCESS;
 }
@@ -260,11 +239,6 @@ KeypadDeviceImplReset(KEYPAD_DEVICE_PROTOCOL *This)
   LibKeyInitializeKeyContext(&KeyContextPower.EfiKeyContext);
   KeyContextPower.EfiKeyContext.KeyData.Key.UnicodeChar = 0xd;  // Enter
 
-#if HAS_SPECIAL_BUTTON == 1
-  LibKeyInitializeKeyContext(&KeyContextSpecial.EfiKeyContext);
-  KeyContextSpecial.EfiKeyContext.KeyData.Key.ScanCode = SCAN_ESC;
-#endif
-
   return EFI_SUCCESS;
 }
 
@@ -274,22 +248,34 @@ KeypadDeviceImplGetKeys(
   KEYPAD_RETURN_API      *KeypadReturnApi,
   UINT64                  Delta)
 {
-  BOOLEAN IsPressed;
-  UINTN   Index;
+    GPIO_LEVEL GpioStatus;
+    BOOLEAN IsPressed;
+    UINTN Index;
 
-  for (Index = 0; Index < (sizeof(KeyList) / sizeof(KeyList[0])); Index++) {
-    KEY_CONTEXT_PRIVATE *Context = KeyList[Index];
+    for (Index = 0; Index < (sizeof(KeyList) / sizeof(KeyList[0])); Index++) {
+        KEY_CONTEXT_PRIVATE *Context = KeyList[Index];
 
-    IsPressed = FALSE;
+        // check if this is a valid key
+        if (Context->IsValid == FALSE)
+            continue;
 
-  	UINT32 PinAddr = ((Context->PinctrlBase + Context->BankOffset) + 0x4);
-    UINT32 PinState = MmioRead32(PinAddr);
+        // get status
+        if (Context->DeviceType == KEY_DEVICE_TYPE_LEGACY) {
+            GpioStatus = GpioGetIn(Context->Gpio);
+        } else {
+            continue;
+        }
 
-    if (!(PinState & (1 << Context->PinNum))) {
-      IsPressed = TRUE;
-    }
+        IsPressed = FALSE;
 
-    LibKeyUpdateKeyStatus(&Context->EfiKeyContext, KeypadReturnApi, IsPressed, Delta);
+        if ((GpioStatus == GPIO_LEVEL_LOW && Context->ActiveLow) ||
+        	(GpioStatus == GPIO_LEVEL_HIGH && !Context->ActiveLow)) {
+        	IsPressed = TRUE;
+        }
+
+        LibKeyUpdateKeyStatus(
+            &Context->EfiKeyContext, KeypadReturnApi, IsPressed, Delta);
+
   }
 
   return EFI_SUCCESS;
