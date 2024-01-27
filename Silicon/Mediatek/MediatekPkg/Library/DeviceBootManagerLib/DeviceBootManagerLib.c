@@ -886,7 +886,7 @@ DeviceBootManagerPriorityBoot (
   BOOLEAN     UEFIShell;
   EFI_STATUS  Status;
 
-  FrontPageBoot = MsBootPolicyLibIsSettingsBoot ();
+  FrontPageBoot = TRUE;
   UEFIShell     = MsBootPolicyLibUEFIShell ();
   MsBootPolicyLibClearBootRequests ();
 

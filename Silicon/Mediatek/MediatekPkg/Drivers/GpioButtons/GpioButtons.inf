@@ -36,6 +36,7 @@
   IoLib
   UefiDriverEntryPoint
   DevicePathLib
+  GpioLib
 
 [Protocols]
   gMsButtonServicesProtocolGuid          #PRODUCES

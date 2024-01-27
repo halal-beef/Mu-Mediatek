@@ -18,7 +18,7 @@
 
 #include <Configuration/BootDevices.h>
 
-#include <../../MT6765Pkg/Include/Library/GpioLib.h>
+#include <Library/GpioLib.h>
 
 #include "GpioButtons.h"
 
