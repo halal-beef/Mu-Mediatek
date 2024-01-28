@@ -125,5 +125,5 @@ fi
 git fetch &> /dev/null
 UPDATE_CHECK=$(git status)
 if [[ ${UPDATE_CHECK} == *"git pull"* ]];
-then _warn "\nYou are using an old Version of Mu-Samsung.\nThis Image may be unstable.\n"
+then _warn "\nYou are using an old Version of Mu-Mediatek.\nThis Image may be unstable.\n"
 fi
