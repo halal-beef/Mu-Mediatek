@@ -39,7 +39,7 @@
 [PcdsFixedAtBuild.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString|L"1.0"
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareRevision|0x01230812
-  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemId|"SAMSUN"
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemId|"MEDIAT"
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemTableId|0x324B44454D4F4351
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorId|0x4D4F4351
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorRevision|0x00000001
@@ -292,11 +292,7 @@
   BootLogoLib|MdeModulePkg/Library/BootLogoLib/BootLogoLib.inf
   PlatformBootManagerLib|MsCorePkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
   CustomizedDisplayLib|MdeModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
-!if $(DISPLAY_USES_RGBA) == 1
-  FrameBufferBltLib|MediatekPkg/Library/FrameBufferBltLib/FrameBufferBltLib.inf
-!else
   FrameBufferBltLib|MdeModulePkg/Library/FrameBufferBltLib/FrameBufferBltLib.inf
-!endif
 
   MemoryTypeInformationChangeLib|MsCorePkg/Library/MemoryTypeInformationChangeLib/MemoryTypeInformationChangeLib.inf
   BaseBinSecurityLib|MdePkg/Library/BaseBinSecurityLibNull/BaseBinSecurityLibNull.inf

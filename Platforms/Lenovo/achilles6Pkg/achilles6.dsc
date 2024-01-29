@@ -24,12 +24,6 @@
   BUILD_TARGETS                  = DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = achilles6Pkg/achilles6.fdf
-  BROKEN_CNTFRQ_EL0              = 0
-  DISPLAY_USES_RGBA              = 0
-  HAS_SPECIAL_BUTTON             = 0
-
-[BuildOptions.common]
-  *_*_*_CC_FLAGS = -DDISPLAY_USES_RGBA=$(DISPLAY_USES_RGBA) -DHAS_SPECIAL_BUTTON=$(HAS_SPECIAL_BUTTON) -DBROKEN_CNTFRQ_EL0=$(BROKEN_CNTFRQ_EL0)
 
 [LibraryClasses.common]
   PlatformMemoryMapLib|achilles6Pkg/Library/PlatformMemoryMapLib/PlatformMemoryMapLib.inf
